@@ -1,0 +1,41 @@
+div.container-fluid
+  div.table-responsive
+    table.table.table-striped.table-hover.table-condensed.spend-table
+      thead
+        tr
+          th.spend-edit
+            a(href="javascript:void(0)", ng-click="add()")
+              span.glyphicon.glyphicon-plus
+          th.spend-date Date
+          th.spend-person Person
+          th.spend-vendor Vendor
+          th.spend-location Location
+          th.spend-paymentmethod Payment Method
+          th.spend-subcategory Subcategory
+          th.spend-total Amount
+          th.spend-notes Notes
+      tbody
+        tr(ng-repeat="(rowid, row) in spendData" data-id="spend-data-{{rowid}}")
+          td.spend-edit
+            a(href="javascript:void(0)", ng-click="edit(rowid)")
+              span.glyphicon.glyphicon-edit
+          td.spend-date {{row.date | formatdate:"YYYY-MM-DD"}}
+          td.spend-person {{row.person_name}}
+          td.spend-vendor {{row.vendor}}
+          td.spend-location {{row.location}}
+          td.spend-paymentmethod {{row.paymentmethod_name}}
+          td.spend-subcategory {{row.subcategory_name}}
+          td.spend-total {{row.total | formatmoney}}
+          td.spend-notes {{row.notes}}
+
+script(type="text/ng-template", id="spend-editor")
+  div.modal-header
+    h3 I'm a modal!
+  div.modal-body
+    ul
+      li a
+      li b
+      li c
+  div.modal-footer
+    button.btn.btn-primary(ng-click="ok()") OK
+    button.btn(ng-click="cancel()") Cancel

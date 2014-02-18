@@ -1,0 +1,10 @@
+div.modal-header
+  h3 I'm a modal!
+div.modal-body
+  table.spend-editor.table
+    tr
+      th Date
+      td {{item.date | formatdate:"YYYY-MM-DD"}}
+div.modal-footer
+  button.btn.btn-primary(ng-click="ok()") OK
+  button.btn(ng-click="cancel()") Cancel
