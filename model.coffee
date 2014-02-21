@@ -14,3 +14,13 @@ module.exports.trx = (id) ->
     .field "*"
     .where "id", "=", id
     .select()
+
+module.exports.people = (id) ->
+
+  q = db.query "people"
+    .field "*"
+
+  if id?
+    q = q.where "id", "=", id
+
+  q.select()

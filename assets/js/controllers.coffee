@@ -1,30 +1,20 @@
 controllers = angular.module "Controllers", ["ngResource", "ngGrid", "ui.bootstrap"]
 
-spendController = controllers.controller "SpendController", ($scope, $resource, Spend, $modal) ->
+spendController = controllers.controller "SpendController", ($scope, $resource, Data, $modal) ->
 
   #$scope.Spend = $resource "/apis/data",
   #console.log "getting data"
   #
   $scope.spendData = []
 
-  Spend.list().$promise.then (spendData) ->
+  Data.spend.index().then (spendData) ->
     $scope.spendData = spendData
 
   $scope.edit = (rowid) ->
 
-    console.log rowid
-    console.log $scope.spendData[rowid]
-
     modalInstance = $modal.open
       templateUrl: "/partials/spend-editor"
-      controller: ($scope, $modalInstance, item) ->
-        $scope.item = item
-
-        $scope.ok = ->
-          $modalInstance.close $scope.item
-
-        $scope.cancel = ->
-          $modalInstance.dismiss "cancel"
+      controller: spendEditorController
 
       resolve:
         item: ->
@@ -35,6 +25,27 @@ spendController = controllers.controller "SpendController", ($scope, $resource, 
     , ->
       console.log "Modal dismissed"
 
+
+spendEditorController = ($scope, $modalInstance, item, Data) ->
+
+  $scope.item = item
+
+  $scope.people = {}
+
+  Data.people.index().then (data) ->
+    $scope.people = data
+
+  $scope.ok = ->
+    $modalInstance.close $scope.item
+
+  $scope.cancel = ->
+    $modalInstance.dismiss "cancel"
+
+  $scope.datepicker = ($event) ->
+    $event.preventDefault()
+    $event.stopPropagation()
+
+    $scope.opened = true
 
 budgetController = controllers.controller "BudgetController", ($scope) ->
 

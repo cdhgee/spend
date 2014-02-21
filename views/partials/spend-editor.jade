@@ -1,10 +1,18 @@
 div.modal-header
-  h3 I'm a modal!
-div.modal-body
-  table.spend-editor.table
-    tr
-      th Date
-      td {{item.date | formatdate:"YYYY-MM-DD"}}
+  h3 Edit Transaction
+div.modal-body.container-fluid
+  div.row
+    div.col-md-2 Date
+    div.col-md-10.input-group
+      input.form-control(type="text", datepicker-popup="yyyy-MM-dd", ng-model="item.date._d", is-open="opened", ng-required="true", close-text="Close")
+      span.input-group-btn
+        button.btn.btn-default(ng-click="datepicker($event)")
+          i.glyphicon.glyphicon-calendar
+  div.row
+    div.col-md-2 Person
+    div.col.md-10
+      select.form-control
+        option(ng-repeat="person in people" id="person-dropdown-{{person.id}}" value="{{person.id}}") {{person.name}}
 div.modal-footer
   button.btn.btn-primary(ng-click="ok()") OK
   button.btn(ng-click="cancel()") Cancel
