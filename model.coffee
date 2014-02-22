@@ -2,19 +2,6 @@ database = require "./database"
 
 db = database "data.db"
 
-module.exports.spend = ->
-
-  db.query "spend_detail"
-    .field "*"
-    .select()
-
-module.exports.trx = (id) ->
-
-  db.query "spend_detail"
-    .field "*"
-    .where "id", "=", id
-    .select()
-
 genericQuery = (table, id) ->
 
   q = db.query table
@@ -25,17 +12,12 @@ genericQuery = (table, id) ->
 
   q.select()
 
-module.exports.people = (id) ->
+apis =
+  accounts: "paymentmethods"
+  spend: "spend"
+  people: "people"
 
-  q = db.query "people"
-    .field "*"
-
-  if id?
-    q = q.where "id", "=", id
-
-  q.select()
-
-
-module.exports.paymentmethods = (id) ->
-
-  genericQuery "paymentmethods", id
+for api, dbobj of apis
+  module.exports[api] = do (dbobj) ->
+    (id) ->
+      genericQuery dbobj, id

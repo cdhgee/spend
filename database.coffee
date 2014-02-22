@@ -15,15 +15,9 @@ class Database
 
   all: (args...) ->
     q.npost @db, "all", args
-    #@dbfunc "all", args
 
   execute: (args...) ->
     q.npost @db, "run", args
-    #@dbfunc "run", args
-
-
-  #dbfunc: (func, args) ->
-  #  q.npost(@db, func, args)
 
   query: (select) ->
     new DatabaseQuery @, select
@@ -95,8 +89,6 @@ class DatabaseQuery
     if data.length > 0 then "#{kw} #{("#{formatter field}" for field in data).join(joiner)}" else ""
 
   select: ->
-    console.log "SELECT #{@field_clause()} FROM #{@select_view} #{@where_clause()} #{@orderby_clause()} #{@groupby_clause()} #{@where_values()}"
-    console.log @where_values()
     @db.all "SELECT #{@field_clause()} FROM #{@select_view} #{@where_clause()} #{@orderby_clause()} #{@groupby_clause()}", @where_values()
 
   insert: ->

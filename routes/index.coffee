@@ -6,9 +6,11 @@ module.exports = (app) ->
   app.get "/partials/*", (req, res) ->
     res.render "partials/#{req.params[0]}"
 
-  apis = ["spend", "people", "paymentmethods"]
+  app.resource "api", require "../api"
 
-  app.resource "apis/#{api}", require "../apis/#{api}" for api in apis
+  #apis = ["spend", "people", "paymentmethods"]
+
+  #app.resource "apis/#{api}", require "../apis/#{api}" for api in apis
 
   #app.resource "apis/spend", require "../apis/spend"
   #app.resource "apis/people", require "../apis/people"
