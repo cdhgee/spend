@@ -15,6 +15,16 @@ module.exports.trx = (id) ->
     .where "id", "=", id
     .select()
 
+genericQuery = (table, id) ->
+
+  q = db.query table
+    .field "*"
+
+  if id?
+    q = q.where "id", "=", id
+
+  q.select()
+
 module.exports.people = (id) ->
 
   q = db.query "people"
@@ -24,3 +34,8 @@ module.exports.people = (id) ->
     q = q.where "id", "=", id
 
   q.select()
+
+
+module.exports.paymentmethods = (id) ->
+
+  genericQuery "paymentmethods", id
