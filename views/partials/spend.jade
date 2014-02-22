@@ -27,15 +27,3 @@ div.container-fluid
           td.spend-subcategory {{row.subcategory_name}}
           td.spend-total {{row.total | formatmoney}}
           td.spend-notes {{row.notes}}
-
-script(type="text/ng-template", id="spend-editor")
-  div.modal-header
-    h3 I'm a modal!
-  div.modal-body
-    ul
-      li a
-      li b
-      li c
-  div.modal-footer
-    button.btn.btn-primary(ng-click="ok()") OK
-    button.btn(ng-click="cancel()") Cancel
