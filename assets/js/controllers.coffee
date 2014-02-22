@@ -8,7 +8,8 @@ spendController = controllers.controller "SpendController", ($scope, $resource, 
   $scope.spendData = []
 
   Data.spend.index().then (spendData) ->
-    $scope.spendData = spendData
+    console.log spendData
+    $scope.spendData = spendData.data
 
   $scope.edit = (rowid) ->
 
@@ -35,7 +36,7 @@ spendEditorController = ($scope, $modalInstance, item, Data) ->
   $scope.people = {}
 
   Data.people.index().then (data) ->
-    $scope.people = data
+    $scope.people = data.data
 
   $scope.ok = ->
     $modalInstance.close $scope.item

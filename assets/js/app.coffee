@@ -18,18 +18,23 @@ dataService = ($resource) ->
   passCallback = (data) ->
     data
 
-  api = (url, callback) ->
+  api = (obj, callback) ->
 
     if not callback? then callback = passCallback
 
-    resource = $resource url, null,
-      _get:
-        method: "GET"
-        isArray: false
-      _index:
-        method: "GET"
-        isArray: false
-        params: {}
+    resource = do(obj) ->
+
+      $resource "/api/:id?object=:object", null,
+        _get:
+          method: "GET"
+          isArray: false
+          params:
+            object: obj
+        _index:
+          method: "GET"
+          isArray: false
+          params:
+            object: obj
 
     resource.get = (id) ->
       resource._get(id).$promise.then callback
@@ -40,56 +45,18 @@ dataService = ($resource) ->
     resource
 
   transformSpend = (data) ->
-    for idx, obj of data
+    for idx, obj of data.data
       obj.date = moment obj.date, "X" if obj["id"]?
     data
 
 
   data =
-    spend: api "/apis/spend/:id", transformSpend
-    people: api "/apis/people/:id"
-    paymentmethods: api "/apis/paymentmethods/:id"
+    spend: api "spend", transformSpend
+    people: api "people"
+    paymentmethods: api "accounts"
 
 
 spendApp.factory "Data", ["$resource", dataService]
-###
-spendApp.factory "Spend", ["$resource", ($resource) ->
-
-
-  res = $resource "/apis/spend/:id", null,
-    get:
-      method: "GET"
-      isArray: false
-    _list:
-      method: "GET"
-      isArray: false
-      params: {}
-
-  res.list = ->
-    res._list.apply res, arguments
-      .$promise.then (res2) ->
-        for idx, obj of res2
-          obj.date = moment obj.date, "X" if obj["id"]?
-
-        res2
-
-  res
-
-
-]
-spendApp.factory "People", ["$resource", ($resource) ->
-
-  res = $resource "/apis/people/:id", null,
-    get:
-      method: "GET"
-      isArray: false
-    list:
-      method: "GET"
-      isArray: false
-      params: {}
-
-]
-###
 
 spendApp.filter "formatdate", ->
   (input, format) ->
