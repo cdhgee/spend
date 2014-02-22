@@ -14,7 +14,7 @@ genericQuery = (table, id) ->
 
 apis =
   accounts: "paymentmethods"
-  spend: "spend"
+  spend: "spend_detail"
   people: "people"
 
 for api, dbobj of apis
