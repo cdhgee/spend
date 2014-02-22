@@ -30,6 +30,8 @@ spendEditorController = ($scope, $modalInstance, item, Data) ->
 
   $scope.item = item
 
+  $scope.x = 1
+
   $scope.people = {}
 
   Data.people.index().then (data) ->
