@@ -2,10 +2,7 @@ controllers = angular.module "Controllers", ["ngResource", "ngGrid", "ui.bootstr
 
 spendController = controllers.controller "SpendController", ($scope, $resource, Data, $modal) ->
 
-  #$scope.Spend = $resource "/apis/data",
-  #console.log "getting data"
-  #
-  $scope.spendData = []
+  $scope.spendData = {}
 
   Data.spend.index().then (spendData) ->
     console.log spendData
@@ -23,20 +20,21 @@ spendController = controllers.controller "SpendController", ($scope, $resource, 
 
     modalInstance.result.then (selectedItem) ->
       $scope.selected = selectedItem
-    , ->
-      console.log "Modal dismissed"
+    , angular.noop
+
 
 
 spendEditorController = ($scope, $modalInstance, item, Data) ->
 
   $scope.item = item
 
-  $scope.x = 1
-
   $scope.people = {}
 
   Data.people.index().then (data) ->
     $scope.people = data.data
+
+  Data.accounts.index().then (data) ->
+    $scope.accounts = data.data
 
   $scope.ok = ->
     $modalInstance.close $scope.item
