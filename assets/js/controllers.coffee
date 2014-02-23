@@ -4,7 +4,7 @@ spendController = ($scope, $resource, Data, $modal) ->
 
   $scope.spendData = {}
 
-  Data.spend.index().then (spendData) ->
+  Data.spend.index().$promise.then (spendData) ->
     console.log spendData
     $scope.spendData = spendData.data
 
@@ -29,18 +29,18 @@ spendEditorController = ($scope, $modalInstance, id, Data) ->
 
   Data.spend.get
     id: id
-  .then (item) ->
+  .$promise.then (item) ->
     $scope.item = item.data
 
   $scope.people = {}
 
-  Data.people.index().then (data) ->
+  Data.people.index().$promise.then (data) ->
     $scope.people = data.data
 
-  Data.accounts.index().then (data) ->
+  Data.accounts.index().$promise.then (data) ->
     $scope.accounts = data.data
 
-  Data.categories.index().then (data) ->
+  Data.categories.index().$promise.then (data) ->
     $scope.categories = data.data
 
   $scope.ok = ->

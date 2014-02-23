@@ -13,51 +13,59 @@ spendConfig = ($routeProvider) ->
 
 spendApp.config ["$routeProvider", spendConfig]
 
-dataService = ($resource) ->
+dataService = ($resource, $http) ->
 
-  passCallback = (data) ->
+  transformSpend = (data, headers) ->
+    if typeof data.data.length is 'number'
+      for idx, obj of data.data
+        obj.date = moment obj.date, "X" if obj["id"]?
+    else
+      data.data.date = moment data.data.date, "X"
+
     data
 
-  api = (obj, callback) ->
 
-    if not callback? then callback = passCallback
+  apiConfig =
+    spend:
+      object: "spend"
+      callback: transformSpend
+    people:
+      object: "people"
+    accounts:
+      object: "accounts"
+    categories:
+      object: "categories"
 
-    resource = do(obj) ->
+  apis = {}
+
+  for api,config of apiConfig
+
+    object = config.object
+    callback = config.callback
+
+    apis[api] = do(object, callback) ->
+
+      transformer = if callback? then $http.defaults.transformResponse.concat(callback) else $http.defaults.transformResponse
 
       $resource "/api/:id?object=:object", null,
-        _get:
+        get:
           method: "GET"
           isArray: false
           params:
-            object: obj
-        _index:
+            object: object
+          transformResponse: transformer
+        index:
           method: "GET"
           isArray: false
           params:
-            object: obj
+            object: object
+          transformResponse: transformer
 
-    resource.get = (id) ->
-      resource._get(id).$promise.then callback
-
-    resource.index = ->
-      resource._index().$promise.then callback
-
-    resource
-
-  transformSpend = (data) ->
-    for idx, obj of data.data
-      obj.date = moment obj.date, "X" if obj["id"]?
-    data
+  apis
 
 
-  data =
-    spend: api "spend", transformSpend
-    people: api "people"
-    accounts: api "accounts"
-    categories: api "categories"
 
-
-spendApp.factory "Data", ["$resource", dataService]
+spendApp.factory "Data", ["$resource", "$http", dataService]
 
 spendApp.filter "formatdate", ->
   (input, format) ->
