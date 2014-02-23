@@ -1,6 +1,6 @@
 controllers = angular.module "Controllers", ["ngResource", "ngGrid", "ui.bootstrap"]
 
-spendController = controllers.controller "SpendController", ($scope, $resource, Data, $modal) ->
+spendController = ($scope, $resource, Data, $modal) ->
 
   $scope.spendData = {}
 
@@ -15,18 +15,22 @@ spendController = controllers.controller "SpendController", ($scope, $resource, 
       controller: spendEditorController
 
       resolve:
-        item: ->
-          $scope.spendData[rowid]
+        id: ->
+          rowid
 
     modalInstance.result.then (selectedItem) ->
       $scope.selected = selectedItem
     , angular.noop
 
 
+controllers.controller "SpendController", spendController
 
-spendEditorController = ($scope, $modalInstance, item, Data) ->
+spendEditorController = ($scope, $modalInstance, id, Data) ->
 
-  $scope.item = item
+  Data.spend.get
+    id: id
+  .then (item) ->
+    $scope.item = item.data
 
   $scope.people = {}
 
