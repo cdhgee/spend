@@ -16,6 +16,7 @@ apis =
   accounts: "paymentmethods"
   spend: "spend_detail"
   people: "people"
+  categories: "subcategory_detail"
 
 for api, dbobj of apis
   module.exports[api] = do (dbobj) ->

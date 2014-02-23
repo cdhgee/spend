@@ -54,6 +54,7 @@ dataService = ($resource) ->
     spend: api "spend", transformSpend
     people: api "people"
     accounts: api "accounts"
+    categories: api "categories"
 
 
 spendApp.factory "Data", ["$resource", dataService]
