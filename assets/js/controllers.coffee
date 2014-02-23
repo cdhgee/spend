@@ -36,6 +36,9 @@ spendEditorController = ($scope, $modalInstance, item, Data) ->
   Data.accounts.index().then (data) ->
     $scope.accounts = data.data
 
+  Data.categories.index().then (data) ->
+    $scope.categories = data.data
+
   $scope.ok = ->
     $modalInstance.close $scope.item
 
