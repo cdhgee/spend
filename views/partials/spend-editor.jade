@@ -1,18 +1,37 @@
 div.modal-header
   h3 Edit Transaction
 div.modal-body.container-fluid
-  div.row
-    div.col-md-2 Date
-    div.col-md-10.input-group
-      input.form-control(type="text", datepicker-popup="yyyy-MM-dd", ng-model="item.date._d", is-open="opened", ng-required="true", close-text="Close")
-      span.input-group-btn
-        button.btn.btn-default(ng-click="datepicker($event)")
-          i.glyphicon.glyphicon-calendar
-  div.row
-    div.col-md-2 Person
-    div.col.md-10
-      select.form-control
-        option(ng-repeat="person in people" id="person-dropdown-{{person.id}}" value="{{person.id}}") {{person.name}}
+  form#spend_editor_form(name="spend_editor")
+    div.row
+      div.col-md-6.form-group
+        label.control-label Date
+        div.input-group
+          input.form-control#spend-editor-form-date(type="datetime", datepicker-popup="yyyy-MM-dd", ng-model="item.date._d", is-open="opened", ng-required="true", close-text="Close")
+          span.input-group-btn: button.btn.btn-default(ng-click="datepicker($event)"): i.glyphicon.glyphicon-calendar
+      div.col-md-6.form-group
+        label.control-label Person
+        select.form-control#spend-editor-form-person(ng-init="item.person_id", ng-model="item.person_id", ng-options="person.id as person.name for person in people")
+    div.row
+      div.col-md-6.form-group
+        label.control-label(for="spend-editor-form-vendor") Vendor
+        input.form-control#spend-editor-form-vendor(type="text", ng-model="item.vendor")
+      div.col-md-6.form-group
+        label.control-label(for="spend-editor-form-account") Account
+        select.form-control#spend-editor-form-account(ng-init="item.paymentmethod_id", ng-model="item.paymentmethod_id", ng-options="account.id as account.name for account in accounts")
+    div.row
+      div.col-md-6.form-group
+        label.control-label(for="spend-editor-form-location") Location
+        input.form-control#spend-editor-form-location(type="text", ng-model="item.location")
+      div.col-md-6.form-group(ng-class="{\"has-error\": spend_editor.amount.$dirty && spend_editor.amount.$invalid}")
+        label.control-label(for="spend-editor-form-amount") Amount
+        div.input-group
+          span.input-group-addon $
+          input.form-control#spend_editor_form_amount(name="amount", type="text", ng-model="item.amount", ng-pattern="/^\\d+\\.\\d{2}$/", ng-required)
+    div.row
+      div.col-md-6.form-group
+        label.control-label(for="spend-editor-form-category") Category
+        select.form-control#spend-editor-form-category(name="category", ng-init="item.subcategory_id", ng-model="item.subcategory_id", ng-options="category.id as category.name group by category.category_name for category in categories")
+
 div.modal-footer
   button.btn.btn-primary(ng-click="ok()") OK
   button.btn(ng-click="cancel()") Cancel
