@@ -15,9 +15,9 @@ div.container-fluid
           th.spend-total Amount
           th.spend-notes Notes
       tbody
-        tr(ng-repeat="(rowid, row) in spendData" data-id="spend-data-{{rowid}}")
+        tr(ng-repeat="row in spendData" data-id="spend-data-{{row.id}}")
           td.spend-edit
-            a(href="javascript:void(0)", ng-click="edit(rowid)")
+            a(href="javascript:void(0)", ng-click="edit(row.id)")
               span.glyphicon.glyphicon-edit
           td.spend-date {{row.date | formatdate:"YYYY-MM-DD"}}
           td.spend-person {{row.person_name}}
