@@ -33,6 +33,7 @@ spendEditorController = ($scope, $modalInstance, id, Data) ->
     $scope.item = item.data
 
   $scope.people = {}
+  $scope.datepickeropened = false
 
   Data.people.index().$promise.then (data) ->
     $scope.people = data.data
@@ -49,11 +50,12 @@ spendEditorController = ($scope, $modalInstance, id, Data) ->
   $scope.cancel = ->
     $modalInstance.dismiss "cancel"
 
-  $scope.datepicker = ($event) ->
+  $scope.opendatepicker = ($event) ->
     $event.preventDefault()
     $event.stopPropagation()
 
-    $scope.opened = true
+    $scope.datepickeropened = true
+
 
 budgetController = controllers.controller "BudgetController", ($scope) ->
 

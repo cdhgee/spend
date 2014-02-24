@@ -3,11 +3,11 @@ div.modal-header
 div.modal-body.container-fluid
   form#spend_editor_form(name="spend_editor")
     div.row
-      div.col-md-6.form-group
+      div.col-md-6.form-group(ng-class="{\"has-error\": spend_editor.date.$dirty && spend_editor.date.$invalid}")
         label.control-label Date
         div.input-group
-          input.form-control#spend-editor-form-date(type="datetime", datepicker-popup="yyyy-MM-dd", ng-model="item.date._d", is-open="opened", ng-required="true", close-text="Close")
-          span.input-group-btn: button.btn.btn-default(ng-click="datepicker($event)"): i.glyphicon.glyphicon-calendar
+          input.form-control(name="date", type="datetime", datepicker-popup="yyyy-MM-dd", ng-model="item.date._d", is-open="$parent.opened", ng-required="true", close-text="Close")
+          span.input-group-btn: button.btn.btn-default(ng-click="opendatepicker($event)"): i.glyphicon.glyphicon-calendar
       div.col-md-6.form-group
         label.control-label Person
         select.form-control#spend-editor-form-person(ng-init="item.person_id", ng-model="item.person_id", ng-options="person.id as person.name for person in people")
@@ -26,7 +26,7 @@ div.modal-body.container-fluid
         label.control-label(for="spend-editor-form-amount") Amount
         div.input-group
           span.input-group-addon $
-          input.form-control#spend_editor_form_amount(name="amount", type="text", ng-model="item.amount", ng-pattern="/^\\d+\\.\\d{2}$/", ng-required)
+          input.form-control#spend_editor_form_amount(name="amount", type="text", ng-model="item.amount", ng-pattern="/^\\d+\\.\\d{2}$/", ng-required="true")
     div.row
       div.col-md-6.form-group
         label.control-label(for="spend-editor-form-category") Category
