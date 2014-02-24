@@ -6,7 +6,7 @@ div.modal-body.container-fluid
       div.col-md-6.form-group(ng-class="{\"has-error\": spend_editor.date.$dirty && spend_editor.date.$invalid}")
         label.control-label Date
         div.input-group
-          input.form-control(name="date", type="datetime", datepicker-popup="yyyy-MM-dd", ng-model="item.date._d", is-open="$parent.opened", ng-required="true", close-text="Close")
+          input.form-control(name="date", type="datetime", datepicker-popup="yyyy-MM-dd", ng-model="item.date._d", is-open="$parent.datepickeropened", ng-required="true", close-text="Close")
           span.input-group-btn: button.btn.btn-default(ng-click="opendatepicker($event)"): i.glyphicon.glyphicon-calendar
       div.col-md-6.form-group
         label.control-label Person
